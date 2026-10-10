@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B2A4A">
+<title>LogiEx Vanning Scan — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#E7ECF3;font-family:Poppins,'Noto Sans JP',system-ui,sans-serif;color:#0B0F14;-webkit-tap-highlight-color:transparent}
+#app{max-width:480px;margin:0 auto;min-height:100vh;min-height:100dvh;background:#fff;display:flex;flex-direction:column;box-shadow:0 0 30px rgba(0,0,0,.08)}
+button,select,input{font-family:inherit}
+button{cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #F5A623;outline-offset:2px}
+button:disabled{cursor:not-allowed}
+.hdr{display:flex;align-items:center;gap:8px;padding:12px;padding-top:max(12px,env(safe-area-inset-top));background:#0B2A4A;color:#fff;position:sticky;top:0;z-index:5}
+.hdr .back{width:52px;height:52px;border-radius:14px;border:0;background:rgba(255,255,255,.12);color:#fff;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.hdr .ttl{flex:1;min-width:0}
+.hdr .sub{font-size:12px;color:#B9CCE3;font-weight:500}
+.hdr .main{font-size:19px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lang{height:52px;min-width:64px;padding:0 10px;border-radius:14px;border:2px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:14px;font-weight:700;flex:none}
+.body{flex:1;display:flex;flex-direction:column}
+.pad{padding:16px;display:flex;flex-direction:column;gap:14px}
+.foot{padding:12px 16px;padding-bottom:max(16px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px;border-top:1px solid #E4E7EE;background:#fff;position:sticky;bottom:0}
+.btn{height:68px;border-radius:16px;border:0;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px;width:100%}
+.blue{background:#1C7BE0;color:#fff}
+.green{background:#0B7A4B;color:#fff}
+.outline{height:56px;background:#fff;color:#0B2A4A;border:2px solid #0B2A4A;font-size:17px}
+.field{display:flex;flex-direction:column;gap:6px;font-size:15px;font-weight:700}
+.field select,.field input{height:60px;padding:0 14px;border-radius:14px;border:2px solid #0B2A4A;font-size:18px;font-weight:600;background:#fff;color:#0B0F14;width:100%}
+.small{font-size:13px;color:#3F4254;font-weight:700}
+.vf{position:relative;height:240px;border-radius:20px;background:#11161D;overflow:hidden;flex:none}
+.vf .c{position:absolute;width:46px;height:46px;border:0 solid #fff}
+.vf .tl{left:56px;top:38px;border-left-width:5px;border-top-width:5px;border-top-left-radius:12px}
+.vf .tr{right:56px;top:38px;border-right-width:5px;border-top-width:5px;border-top-right-radius:12px}
+.vf .bl{left:56px;bottom:38px;border-left-width:5px;border-bottom-width:5px;border-bottom-left-radius:12px}
+.vf .br{right:56px;bottom:38px;border-right-width:5px;border-bottom-width:5px;border-bottom-right-radius:12px}
+.vf .line{position:absolute;left:56px;right:56px;height:3px;background:#3699FF;box-shadow:0 0 14px #3699FF;top:50px;animation:scan 2.4s ease-in-out infinite}
+.vf .note{position:absolute;left:0;right:0;bottom:10px;text-align:center;color:#E8EDF4;font-size:12px;padding:0 16px}
+.vf .tag{position:absolute;left:12px;top:12px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;font-size:13px;font-weight:700}
+@keyframes scan{0%{top:50px}50%{top:186px}100%{top:50px}}
+@media (prefers-reduced-motion:reduce){.vf .line{animation:none;top:118px}}
+.row{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid #E4E7EE}
+.dot{width:38px;height:38px;border-radius:50%;flex:none;display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff}
+.pill{padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.note-box{margin:12px 16px 0;padding:12px 14px;border-radius:12px;font-size:14px;font-weight:700;display:flex;gap:10px;align-items:center}
+.stylebtns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.stylebtns button{height:76px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.stylebtns b{font-size:17px}.stylebtns span{font-size:11px;font-weight:600}
+.thumbs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.thumb{flex:none;width:72px;height:72px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:10px;font-weight:700;text-align:center;padding:2px}
+.err{padding:12px 14px;border-radius:12px;background:#FDE8EA;color:#9B1C2C;font-size:14px;font-weight:600}
+.guide{margin:16px;padding:14px;border-radius:14px;background:#F1F5FB;font-size:13px;line-height:1.5}
+.guide ol{margin:6px 0 0;padding-left:20px}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid #EEF0F5}
+.kv span{font-size:14px;color:#3F4254;font-weight:500}.kv b{font-size:15px;text-align:right}
+</style>
+</head>
+<body>
+<div id="app"><div style="padding:32px 22px;font-size:16px;line-height:1.6">
+<div style="font-weight:800;font-size:26px;letter-spacing:.06em;margin-bottom:12px">LOGI<span style="color:#1C7BE0">EX</span> · Vanning Scan</div>
+<p style="font-weight:700;color:#9B1C2C">The demo cannot start in this viewer.</p>
+<p>This preview does not run the app. Please open the file in a real browser:</p>
+<ol>
+<li><b>iPhone:</b> tap Share (□↑) → “Open in Safari” or “Open in Chrome”. Do not use the Files / LINE / mail preview.</li>
+<li><b>Android:</b> tap ⋮ → “Open with” → Chrome.</li>
+<li><b>PC:</b> double-click the file to open it in Chrome or Edge.</li>
+</ol>
+<p style="font-weight:700;color:#9B1C2C">このビューアではデモを開始できません。</p>
+<p>ファイルをSafari / Chromeで開いてください（LINE・メール・ファイルアプリのプレビューでは動作しません）。</p>
+</div></div>
+<script>
+(function(){
+var I = {
+ en:{app:'Vanning Scan',demo:'DEMO — sample data, nothing is saved',signSub:'Sign in and choose your yard.',signIn:'Sign in',staff:'Staff',yard:'Yard',pin:'PIN',pinPh:'Any 4 digits',yard1:'LOGIEX YARD — Yokohama',yard2:'LOGIEX YARD 2 — Daikoku',back:'Back',sw:'日本語',
+  scanC:'Scan Container',pointC:'Point the camera at the container QR on the packing form.',cam:'Demo: camera simulated — choose a code below',sim:'Simulate scan',scan:'Scan',or:'or',typeC:'Type container no.',open:'Open',cNF:'No container order with this number.',
+  dest:'Dest.',vessel:'Vessel',cut:'Cut',cutToday:'Cut today',loaded:'loaded',notStarted:'Vanning not started. Tap “Start vanning” to record the start time.',startedAt:'Vanning start',endT:'End',startV:'Start vanning',scanV:'Scan Vehicle',finish:'Finish',pending:'Pending',pos:'Position No.',setStyle:'Set style',photosW:'photos',
+  pointV:'Point the camera at the QR on the vehicle sheet.',optUn:'no container',optNS:'not in stock',
+  matchedT:'MATCHED',ovT:'OVERRIDE APPROVED',wrongT:'WRONG CONTAINER',dupT:'ALREADY SCANNED',nfT:'VEHICLE NOT FOUND',naT:'NOT ASSIGNED TO ANY CONTAINER',nfM:'Not in yard stock. Check the label and set the vehicle aside.',naM:'In stock, but not planned for any container. Do not load.',
+  remove:'Remove from container',override:'Supervisor override (PIN + reason)',next:'Scan next vehicle',cont:'Continue',backList:'Back to checklist',chooseStyle:'Choose parked style first',
+  sOk:'Chime · 1 short vibration',sErr:'Error buzzer ×3 · long vibration',sWarn:'Double beep · 2 short vibrations',
+  supPin:'Supervisor PIN',pinHint:'Demo PIN: 1234',reason:'Reason',reasons:['Booking changed by sales','Customer requested a swap','Plan error corrected'],approve:'Approve & load',cancel:'Cancel',pinWrong:'PIN is incorrect. Try again.',
+  parked:'Parked style',styles:{down:'DOWN',slided:'SLIDED',hanged:'HANGED'},help:{down:'Floor park',slided:'On ramp',hanged:'Rack / lifted'},
+  vPhotos:'Vanning photos',addPhoto:'Add photo',nextShot:'Next shot:',full:'Limit reached — 10 photos max',shots:['Front','Rear','Left side','Right side','Lashing / chocks','Interior','Odometer','Damage','Extra','Extra'],
+  details:'Vehicle details',close:'Close',
+  missT:'Not finished yet',notLoaded:'Not loaded',parking:'Parking',locked:'Complete Vanning stays locked until every planned vehicle is scanned.',contScan:'Continue scanning',complete:'Complete Vanning',
+  allM:'All vehicles matched',plan:'Loading plan',door:'Door-closing photo',optional:'Optional',takePhoto:'Take photo',addAnother:'Add another',seal:'Seal number',sealPh:'e.g. FX2649183',statusWill:'Status will change to “Vanning Finished”',styleMiss:'Set the parked style for every loaded vehicle before completing.',
+  summary:'Vanning summary',finished:'Vanning Finished',container:'Container',by:'Scanned by',startT:'Start',vehL:'Vehicles loaded',vehPh:'Vehicle photos',doorPh:'Door photos',exc:'Exceptions caught',none:'None',nextC:'Scan next container',already:'Vanning already finished for this container.',booking:'Booking',
+  howTitle:'How to try (5 minutes)',how:['Sign in, then scan container TIIU6899691.','Tap “Start vanning”.','Scan ZVW51-6168986 → green. Choose DOWN, add a few photos.','Scan AGL20-0013750 → red (wrong container). Tap “Remove from container”.','Scan ZVW51-6168986 again → amber (already scanned).','Tap Finish → see the missing vehicles.','Scan the rest → all green → Complete Vanning.'],reset:'Reset demo'},
+ ja:{app:'バンニングスキャン',demo:'デモ — サンプルデータ・保存されません',signSub:'ログインしてヤードを選択してください。',signIn:'ログイン',staff:'担当者',yard:'ヤード',pin:'PIN',pinPh:'任意の4桁',yard1:'LOGIEX YARD — 横浜',yard2:'LOGIEX YARD 2 — 大黒',back:'戻る',sw:'EN',
+  scanC:'コンテナをスキャン',pointC:'バンニング表のコンテナQRにカメラを向けてください。',cam:'デモ：カメラは模擬です — 下からコードを選択',sim:'スキャンを模擬',scan:'スキャン',or:'または',typeC:'コンテナ番号を入力',open:'開く',cNF:'この番号のコンテナオーダーはありません。',
+  dest:'仕向地',vessel:'本船',cut:'カット',cutToday:'本日カット',loaded:'積載済',notStarted:'バンニング未開始です。「バンニング開始」をタップして開始時刻を記録してください。',startedAt:'バンニング開始',endT:'終了',startV:'バンニング開始',scanV:'車両をスキャン',finish:'終了',pending:'未積載',pos:'位置 No.',setStyle:'未設定',photosW:'枚',
+  pointV:'車両シートのQRにカメラを向けてください。',optUn:'コンテナ未割当',optNS:'在庫なし',
+  matchedT:'一致',ovT:'責任者承認済',wrongT:'コンテナ違い',dupT:'スキャン済み',nfT:'車両が見つかりません',naT:'コンテナ未割当',nfM:'在庫にありません。ラベルを確認し、車両を別置きしてください。',naM:'在庫車両ですが、どのコンテナにも割り当てられていません。積載しないでください。',
+  remove:'コンテナから降ろす',override:'責任者承認（PIN＋理由）',next:'次の車両をスキャン',cont:'次へ',backList:'チェックリストに戻る',chooseStyle:'先に積付方法を選択',
+  sOk:'チャイム・短い振動1回',sErr:'エラーブザー×3・長い振動',sWarn:'ダブルビープ・短い振動2回',
+  supPin:'責任者PIN',pinHint:'デモ用PIN：1234',reason:'理由',reasons:['営業によるブッキング変更','顧客要望による入替','計画ミスの修正'],approve:'承認して積載',cancel:'キャンセル',pinWrong:'PINが違います。もう一度入力してください。',
+  parked:'積付方法',styles:{down:'DOWN',slided:'SLIDED',hanged:'HANGED'},help:{down:'床置き',slided:'スロープ上',hanged:'ラック・吊り'},
+  vPhotos:'バンニング写真',addPhoto:'写真を追加',nextShot:'次の撮影：',full:'上限です — 最大10枚',shots:['前','後','左側','右側','固縛・輪止め','車内','走行距離','損傷','追加','追加'],
+  details:'車両詳細',close:'閉じる',
+  missT:'まだ完了できません',notLoaded:'未積載',parking:'駐車位置',locked:'すべての予定車両をスキャンするまで「バンニング完了」はロックされます。',contScan:'スキャンを続ける',complete:'バンニング完了',
+  allM:'全車両一致',plan:'積付計画',door:'扉閉め写真',optional:'任意',takePhoto:'写真を撮る',addAnother:'もう1枚',seal:'シール番号',sealPh:'例：FX2649183',statusWill:'ステータスが「バンニング完了」に変わります',styleMiss:'完了前に、積載したすべての車両の積付方法を設定してください。',
+  summary:'バンニング結果',finished:'バンニング完了',container:'コンテナ',by:'スキャン担当',startT:'開始',vehL:'積載台数',vehPh:'車両写真',doorPh:'扉写真',exc:'検出した異常',none:'なし',nextC:'次のコンテナをスキャン',already:'このコンテナのバンニングは完了しています。',booking:'ブッキング',
+  howTitle:'試し方（約5分）',how:['ログインし、コンテナ TIIU6899691 をスキャン。','「バンニング開始」をタップ。','ZVW51-6168986 をスキャン → 緑。DOWNを選び、写真を数枚追加。','AGL20-0013750 をスキャン → 赤（コンテナ違い）。「コンテナから降ろす」をタップ。','ZVW51-6168986 を再スキャン → 黄（スキャン済み）。','「終了」をタップ → 未積載車両を確認。','残りをスキャン → 全車緑 → バンニング完了。'],reset:'デモをリセット'}
+};
+var USERS={tanaka:{en:'Tanaka Hiroshi',ja:'田中 浩'},suzuki:{en:'Suzuki Ken',ja:'鈴木 健'},basheer:{en:'Basheer (Supervisor)',ja:'バシール（責任者）'}};
+var V={'ZVW51-6168986':['PRIUS','BOT-65'],'ZVW55-6018972':['PRIUS','BOT-66'],'ZWE214-6018548':['COROLLA','MONG-4'],'ZWE215-0007941':['COROLLA','MONG-7'],
+ 'AGL20-0013750':['LEXUS RX','MONG-6'],'GSU45-2504116':['HARRIER','BOT-71'],'KSP130-2204417':['VITZ','BOT-30'],'NSP140-9031552':['RACTIS','BOT-31'],
+ 'NZE161-3045821':['COROLLA AXIO','BOT-12'],'GP5-3104552':['FIT HYBRID','BOT-14'],'NHP10-6234418':['AQUA','BOT-15'],'ZRR80-0127734':['VOXY','MONG-2'],
+ 'ANH20-8102236':['ALPHARD','C-3'],'GRX130-6058871':['MARK X','C-4'],'ZRE162-7004589':['COROLLA FIELDER','C-5'],
+ 'ZVW30-5718342':['PRIUS','MONG-10'],'NZE164-8031127':['COROLLA FIELDER','MONG-11'],'ACR50-0093561':['ESTIMA','MONG-12'],
+ 'GRS210-6012458':['CROWN','MONG-14'],'NHP10-2289376':['AQUA','MONG-15'],'ZRE212-6004917':['COROLLA','MONG-16'],'NKE165-7193320':['COROLLA FIELDER','BOT-77']};
+var C={
+ 1811:{no:'TIIU6899691',b:1221,dest:'LONDON GATEWAY, UNITED KINGDOM',vessel:'CMA CGM SPIRIT / JPX080S19',cut:'09/10/2026',veh:['ZVW51-6168986','ZVW55-6018972','ZWE214-6018548','ZWE215-0007941']},
+ 1812:{no:'ONEU2049318',b:1225,dest:'PARAMARIBO, SURINAME',vessel:'ONE ORINOCO / 2630W',cut:'16/10/2026',veh:['KSP130-2204417','NSP140-9031552']},
+ 1815:{no:'TGHU1234567',b:1227,dest:'DURBAN, SOUTH AFRICA',vessel:'EVER BREED / 1638-115S',cut:'16/10/2026',veh:['NZE161-3045821','GP5-3104552','NHP10-6234418','ZRR80-0127734']},
+ 1816:{no:'TCNU8812046',b:1227,dest:'DURBAN, SOUTH AFRICA',vessel:'EVER BREED / 1638-115S',cut:'16/10/2026',veh:['ANH20-8102236','GRX130-6058871','ZRE162-7004589']},
+ 1818:{no:'SEGU6620185',b:1229,dest:'XINGANG, CHINA (to Mongolia)',vessel:'SINOTRANS KEELUNG / 2621W',cut:'21/10/2026',veh:['ZVW30-5718342','NZE164-8031127','ACR50-0093561']},
+ 1819:{no:'CAIU7783014',b:1229,dest:'XINGANG, CHINA (to Mongolia)',vessel:'SINOTRANS KEELUNG / 2621W',cut:'21/10/2026',veh:['GRS210-6012458','NHP10-2289376','ZRE212-6004917']},
+ 1820:{no:'BEAU5530918',b:1230,dest:'GEORGETOWN, GUYANA',vessel:'SEASPAN ZAMBEZI / 2632W',cut:'30/10/2026',veh:['AGL20-0013750','GSU45-2504116']}
+};
+var VEH_OPTS=['ZVW51-6168986','ZVW55-6018972','ZWE214-6018548','ZWE215-0007941','AGL20-0013750','NZE161-3045821','GP5-3104552','NHP10-6234418','ZRR80-0127734','ZVW30-5718342','NZE164-8031127','ACR50-0093561','NKE165-7193320','NCP91-5123999'];
+var STYLE_COL={down:['#E1F0FF','#0B4F96'],slided:['#EFE9FF','#4B2FB0'],hanged:['#D4F0EC','#0B5C55'],'':['#FFEBC2','#6B4500']};
+
+function initCS(){var o={};Object.keys(C).forEach(function(k){o[k]={veh:C[k].veh.slice(),scanned:{},start:'',startBy:'',end:'',done:false,seal:'',door:0};});return o;}
+function init(lang){return{lang:lang||'en',screen:'login',user:'tanaka',yard:'y1',pin:'',cid:null,contSel:'TIIU6899691',typed:'',err:false,vehSel:'ZVW51-6168986',res:null,ovOpen:false,ovPin:'',ovReason:'0',ovErr:false,door:[],seal:'',editCh:null,cs:initCS(),log:[]};}
+var S=init();
+try{var sl=localStorage.getItem('lx_lang');if(sl==='ja')S.lang='ja';}catch(e){}
+
+function t(){return I[S.lang];}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function now(){var d=new Date();return(d.getHours()<10?'0':'')+d.getHours()+':'+(d.getMinutes()<10?'0':'')+d.getMinutes();}
+function today(){var d=new Date();function p(n){return(n<10?'0':'')+n;}return p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear();}
+function uname(u){return USERS[u]?USERS[u][S.lang]:u;}
+function cnt(c){return c.veh.filter(function(ch){return c.scanned[ch];}).length;}
+function all(c){return c.veh.length>0&&c.veh.every(function(ch){return c.scanned[ch];});}
+function city(d){return d.split(',')[0].toLowerCase().replace(/(^|\s)[a-z]/g,function(x){return x.toUpperCase();});}
+function styleWord(s){return s?t().styles[s]:t().setStyle;}
+function buzz(p){try{if(navigator.vibrate)navigator.vibrate(p);}catch(e){}}
+function beep(kind){try{var A=window.AudioContext||window.webkitAudioContext;if(!A)return;var ctx=beep.c||(beep.c=new A());var seq=kind==='ok'?[[880,.12]]:kind==='err'?[[220,.18],[0,.08],[220,.18],[0,.08],[220,.18]]:[[660,.1],[0,.06],[660,.1]];var tm=ctx.currentTime;seq.forEach(function(s){if(s[0]){var o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=s[0];o.type=kind==='err'?'square':'sine';g.gain.value=.12;o.connect(g);g.connect(ctx.destination);o.start(tm);o.stop(tm+s[1]);}tm+=s[1];});}catch(e){}}
+
+var ICON={
+ back:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
+ scan:'<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M4 12h16"/></svg>',
+ clock:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg>',
+ check:'<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+ x:'<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+ warn:'<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg>',
+ cam:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+ car:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16l1.5-5h11L19 16"/><path d="M3 16h18v3H3z"/></svg>',
+ lock:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+ sound:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg>',
+ pen:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></svg>'
+};
+
+/* ---------- actions ---------- */
+function openC(raw){var q=String(raw||'').toUpperCase().replace(/[\s-]/g,'');var cid=null;Object.keys(C).forEach(function(k){if(C[k].no===q)cid=k;});
+ if(!cid){S.err=true;buzz([200,80,200]);return;}S.cid=cid;S.screen='list';S.err=false;S.res=null;S.door=[];S.seal='';S.typed='';beep('ok');buzz(60);}
+function startV(){var c=S.cs[S.cid];if(!c.start){c.start=now();c.startBy=S.user;}S.screen='scanV';}
+function scanVeh(ch){var c=S.cs[S.cid];var tm=now();var e={t:tm,u:S.user,cid:S.cid,ch:ch,r:''};var r={ch:ch,model:V[ch]?V[ch][0]:'',t:tm};
+ if(!V[ch]){e.r='nf';r.kind='nf';}
+ else if(c.veh.indexOf(ch)>=0){
+  if(c.scanned[ch]){e.r='dup';r.kind='dup';r.at=c.scanned[ch].t;r.by=c.scanned[ch].u;}
+  else{c.scanned[ch]={t:tm,u:S.user,pos:cnt(c)+1,style:'',photos:[]};e.r='ok';r.kind='ok';if(!c.start){c.start=tm;c.startBy=S.user;}}
+ }else{var other=null;Object.keys(S.cs).forEach(function(k){if(k!==S.cid&&S.cs[k].veh.indexOf(ch)>=0)other=k;});
+  if(other){e.r='wrong';r.kind='wrong';r.other=other;}else{e.r='nf';r.kind='na';}}
+ S.log.push(e);S.res=r;S.screen='result';S.ovOpen=false;S.ovPin='';S.ovErr=false;S.vehSel=ch;
+ if(r.kind==='ok'){beep('ok');buzz(80);}else if(r.kind==='wrong'){beep('err');buzz([400,120,400,120,400]);}else{beep('warn');buzz([120,80,120]);}
+ window.scrollTo(0,0);}
+function approve(){if(S.ovPin!=='1234'){S.ovErr=true;return;}var r=S.res,ch=r.ch,o=S.cs[r.other],c=S.cs[S.cid];
+ o.veh=o.veh.filter(function(x){return x!==ch;});c.veh.push(ch);c.scanned[ch]={t:now(),u:S.user,pos:cnt(c)+1,style:'',photos:[],ov:true};if(!c.start){c.start=now();c.startBy=S.user;}
+ S.log.push({t:now(),u:'basheer',cid:S.cid,ch:ch,r:'ov'});S.res={kind:'ok',ch:ch,model:V[ch][0],t:now(),ov:true};S.ovOpen=false;beep('ok');buzz(80);}
+function addPhoto(ch){var sc=S.cs[S.cid].scanned[ch];if(!sc||sc.photos.length>=10)return;sc.photos.push(now());buzz(30);}
+function complete(){var c=S.cs[S.cid];c.done=true;c.end=now();c.seal=String(S.seal||'').toUpperCase();c.door=S.door.length;S.screen='summary';beep('ok');buzz([80,60,80]);window.scrollTo(0,0);}
+
+/* ---------- views ---------- */
+function header(title,backTo){return '<div class="hdr"><button class="back" data-a="go" data-v="'+backTo+'" aria-label="'+t().back+'">'+ICON.back+'</button><div class="ttl"><div class="sub">'+t().app+' · '+esc(uname(S.user))+'</div><div class="main">'+esc(title)+'</div></div><button class="lang" data-a="lang">'+t().sw+'</button></div>';}
+function viewfinder(tag){return '<div class="vf"><div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div><div class="line"></div>'+(tag?'<div class="tag">'+esc(tag)+'</div>':'')+'<div class="note">'+t().cam+'</div></div>';}
+function styleBtns(ch,cur,onWhite){return '<div class="stylebtns">'+['down','slided','hanged'].map(function(k){var on=cur===k;var bg=onWhite?(on?'#0B2A4A':'#fff'):(on?'#fff':'rgba(255,255,255,.12)');var fg=onWhite?(on?'#fff':'#0B2A4A'):(on?'#0B5C38':'#fff');var bd=onWhite?'#0B2A4A':(on?'#fff':'rgba(255,255,255,.6)');
+ return '<button data-a="style" data-ch="'+ch+'" data-v="'+k+'" aria-pressed="'+on+'" style="background:'+bg+';color:'+fg+';border:3px solid '+bd+'"><b>'+t().styles[k]+'</b><span>'+t().help[k]+'</span></button>';}).join('')+'</div>';}
+function photoBlock(ch,onWhite){var sc=S.cs[S.cid].scanned[ch];var ph=sc.photos;var full=ph.length>=10;
+ var h='<div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:6px"><span style="font-size:15px;font-weight:800">'+t().vPhotos+'</span><span style="font-size:15px;font-weight:800">'+ph.length+' / 10</span></div>';
+ h+='<div class="thumbs"><button data-a="photo" data-ch="'+ch+'" '+(full?'disabled':'')+' style="flex:none;width:86px;height:72px;border-radius:12px;font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;'+(onWhite?'border:2px dashed #0B2A4A;background:#F1F5FB;color:#0B2A4A':'border:2px dashed #fff;background:rgba(255,255,255,.14);color:#fff')+(full?';opacity:.5':'')+'">'+ICON.cam+t().addPhoto+'</button>';
+ ph.forEach(function(tm,i){h+='<div class="thumb" style="'+(onWhite?'background:#2E3440;color:#fff':'background:rgba(0,0,0,.32);color:#fff')+'">'+ICON.car+'<span>'+(i+1)+' · '+esc(t().shots[i])+'</span><span style="font-weight:500">'+tm+'</span></div>';});
+ h+='</div><div style="font-size:13px;font-weight:600">'+(full?t().full:t().nextShot+' '+t().shots[ph.length])+'</div>';return h;}
+
+function vLogin(){var T=t();return '<div class="body"><div class="pad" style="padding:24px 22px">'+
+ '<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800;font-size:26px;letter-spacing:.06em">LOGI<span style="color:#1C7BE0">EX</span></div><button data-a="lang" style="height:52px;min-width:72px;padding:0 12px;border-radius:14px;border:2px solid #0B2A4A;background:#fff;color:#0B2A4A;font-size:15px;font-weight:700">'+T.sw+'</button></div>'+
+ '<div style="padding:8px 12px;border-radius:10px;background:#FFF1D6;color:#5C3B00;font-size:12px;font-weight:700">'+T.demo+'</div>'+
+ '<div><div style="font-size:30px;font-weight:800;line-height:1.15">'+T.app+'</div><div style="font-size:15px;color:#3F4254;margin-top:6px">'+T.signSub+'</div></div>'+
+ '<label class="field">'+T.staff+'<select data-a="set" data-k="user"><option value="tanaka"'+(S.user==='tanaka'?' selected':'')+'>'+USERS.tanaka[S.lang]+'</option><option value="suzuki"'+(S.user==='suzuki'?' selected':'')+'>'+USERS.suzuki[S.lang]+'</option></select></label>'+
+ '<label class="field">'+T.yard+'<select data-a="set" data-k="yard"><option value="y1"'+(S.yard==='y1'?' selected':'')+'>'+T.yard1+'</option><option value="y2"'+(S.yard==='y2'?' selected':'')+'>'+T.yard2+'</option></select></label>'+
+ '<label class="field">'+T.pin+'<input type="password" inputmode="numeric" data-k="pin" value="'+esc(S.pin)+'" placeholder="'+T.pinPh+'" style="letter-spacing:.3em;font-size:22px"></label>'+
+ '<button class="btn blue" data-a="login">'+T.signIn+'</button></div>'+
+ '<div class="guide"><b>'+T.howTitle+'</b><ol>'+T.how.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ol></div></div>';}
+
+function vScanC(){var T=t();return header(T.scanC,'login')+'<div class="body"><div class="pad">'+viewfinder('')+
+ '<div style="font-size:16px;font-weight:600;line-height:1.4">'+T.pointC+'</div>'+
+ '<label class="field small">'+T.sim+'<select data-a="set" data-k="contSel">'+['TIIU6899691|1221 · UK','TGHU1234567|1227 · Durban','SEGU6620185|1229 · Mongolia'].map(function(o){var p=o.split('|');return '<option value="'+p[0]+'"'+(S.contSel===p[0]?' selected':'')+'>'+p[0]+' · '+p[1]+'</option>';}).join('')+'</select></label>'+
+ '<button class="btn blue" data-a="scanC">'+ICON.scan+T.scan+'</button>'+
+ '<div style="display:flex;align-items:center;gap:10px;color:#5E6278;font-size:13px"><span style="flex:1;height:1px;background:#D5DCE8"></span>'+T.or+'<span style="flex:1;height:1px;background:#D5DCE8"></span></div>'+
+ '<label class="field small">'+T.typeC+'<span style="display:flex;gap:8px"><input data-k="typed" value="'+esc(S.typed)+'" placeholder="TIIU6899691" autocapitalize="characters" style="flex:1;min-width:0;text-transform:uppercase"><button data-a="typedOpen" class="btn outline" style="width:auto;padding:0 18px;height:60px">'+T.open+'</button></span></label>'+
+ (S.err?'<div class="err" role="alert">'+T.cNF+'</div>':'')+'</div></div>';}
+
+function vList(){var T=t(),c=S.cs[S.cid],D=C[S.cid],n=cnt(c),tot=c.veh.length,deg=tot?Math.round(n/tot*360):0;
+ var h=header(D.no,'scanC')+'<div class="body"><div style="flex:1">';
+ h+='<div style="display:flex;gap:14px;align-items:center;padding:16px;border-bottom:1px solid #E4E7EE"><div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">'+
+  '<div style="font-size:24px;font-weight:800">'+D.no+'</div><div style="font-size:13px;color:#3F4254"><b>'+T.dest+'</b> '+D.dest+'</div><div style="font-size:13px;color:#3F4254"><b>'+T.vessel+'</b> '+D.vessel+'</div>'+
+  '<div style="font-size:13px;color:#3F4254"><b>'+T.cut+'</b> '+D.cut+(D.cut===today()?' <span class="pill" style="background:#FFE2A8;color:#5C3B00">'+T.cutToday+'</span>':'')+'</div></div>'+
+  '<div style="width:104px;height:104px;border-radius:50%;flex:none;background:conic-gradient('+(n===tot?'#0E9F6E':'#1C7BE0')+' '+deg+'deg,#E4E7EE 0deg);display:flex;align-items:center;justify-content:center"><div style="width:80px;height:80px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="font-size:22px;font-weight:800;line-height:1">'+n+' / '+tot+'</div><div style="font-size:12px;color:#3F4254;font-weight:600">'+T.loaded+'</div></div></div></div>';
+ if(c.done)h+='<div class="note-box" style="background:#E3F6EC;color:#0B6E4F">'+T.already+'</div>';
+ else if(!c.start)h+='<div class="note-box" style="background:#FFF1D6;color:#5C3B00">'+ICON.clock+T.notStarted+'</div>';
+ else h+='<div class="note-box" style="background:#E1F0FF;color:#0B3F7A">'+ICON.clock+'<div style="flex:1"><div style="font-size:12px;font-weight:600">'+T.startedAt+'</div><div style="font-size:18px;font-weight:800">'+c.start+' · '+esc(uname(c.startBy))+'</div></div><div style="text-align:right"><div style="font-size:12px;font-weight:600">'+T.endT+'</div><div style="font-size:18px;font-weight:800">'+(c.end||'—')+'</div></div></div>';
+ c.veh.forEach(function(ch){var v=V[ch]||['',''],sc=c.scanned[ch];var sty=sc?sc.style:'';
+  h+='<div class="row" style="background:'+(sc?'#F4FBF7':'#fff')+'"><span class="dot" style="background:'+(sc?'#0E9F6E':'#fff')+';border:2px solid '+(sc?'#0E9F6E':'#A1A5B7')+'">'+(sc?sc.pos:'')+'</span>'+
+  '<div style="flex:1;min-width:0"><div style="font-size:17px;font-weight:700">'+ch+'</div><div style="font-size:13px;color:#3F4254">'+v[0]+' · <b>'+v[1]+'</b></div>'+(sc?'<div style="font-size:12px;color:#0B6E4F;font-weight:700">'+T.pos+' '+sc.pos+' · '+sc.t+' · '+sc.photos.length+' '+T.photosW+'</div>':'')+'</div>'+
+  (sc?'<button data-a="edit" data-ch="'+ch+'" style="min-width:92px;height:48px;padding:0 10px;border-radius:12px;font-size:13px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:6px;background:'+STYLE_COL[sty][0]+';color:'+STYLE_COL[sty][1]+';border:2px solid '+STYLE_COL[sty][1]+'">'+styleWord(sty)+ICON.pen+'</button>':'<span class="pill" style="background:#E9ECF2;color:#3F4254">'+T.pending+'</span>')+'</div>';});
+ if(S.editCh&&c.scanned[S.editCh]){h+='<div style="margin:12px 16px;padding:14px;border-radius:16px;border:2px solid #0B2A4A;display:flex;flex-direction:column;gap:10px">'+
+  '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div><div style="font-size:12px;font-weight:600;color:#3F4254">'+T.details+'</div><div style="font-size:17px;font-weight:800">'+S.editCh+'</div></div><button data-a="closeEdit" class="btn outline" style="width:auto;height:48px;padding:0 14px;font-size:14px">'+T.close+'</button></div>'+
+  styleBtns(S.editCh,c.scanned[S.editCh].style,true)+photoBlock(S.editCh,true)+'</div>';}
+ h+='</div>';
+ if(!c.done)h+='<div class="foot">'+(!c.start?'<button class="btn green" data-a="startV">'+ICON.clock+T.startV+'</button>':'<button class="btn blue" data-a="go" data-v="scanV">'+ICON.scan+T.scanV+'</button>')+'<button class="btn outline" data-a="finish">'+T.finish+'</button></div>';
+ return h+'</div>';}
+
+function vScanV(){var T=t(),c=S.cs[S.cid];return header(T.scanV,'list')+'<div class="body"><div class="pad">'+viewfinder(C[S.cid].no+' · '+cnt(c)+' / '+c.veh.length+' '+T.loaded)+
+ '<div style="font-size:16px;font-weight:600;line-height:1.4">'+T.pointV+'</div>'+
+ '<label class="field small">'+T.sim+'<select data-a="set" data-k="vehSel">'+VEH_OPTS.map(function(ch){var lab=ch+' · '+(ch==='NKE165-7193320'?T.optUn:ch==='NCP91-5123999'?T.optNS:V[ch][0]);return '<option value="'+ch+'"'+(S.vehSel===ch?' selected':'')+'>'+lab+'</option>';}).join('')+'</select></label>'+
+ '<button class="btn blue" data-a="scanV">'+ICON.scan+T.scan+'</button></div></div>';}
+
+function vResult(){var T=t(),r=S.res,c=S.cs[S.cid],ok=r.kind==='ok',wrong=r.kind==='wrong',amber=!ok&&!wrong;
+ var bg=ok?'#0B7A4B':wrong?'#C62828':'#FFB020',fg=amber?'#1A1200':'#fff',title,line;
+ if(ok){title=r.ov?T.ovT:T.matchedT;line=cnt(c)+' / '+c.veh.length+' '+T.loaded;}
+ if(wrong){var o=C[r.other];title=T.wrongT;line=S.lang==='ja'?('この車両の積載先は '+o.no+'（ブッキング'+o.b+'・'+city(o.dest)+'）です。'):('This vehicle belongs to '+o.no+' (Booking '+o.b+', '+city(o.dest)+').');}
+ if(r.kind==='dup'){title=T.dupT;line=S.lang==='ja'?(r.at+'に'+uname(r.by)+'がスキャン済みです。'):('Already scanned at '+r.at+' by '+uname(r.by)+'.');}
+ if(r.kind==='nf'){title=T.nfT;line=T.nfM;} if(r.kind==='na'){title=T.naT;line=T.naM;}
+ var sc=ok?c.scanned[r.ch]:null,need=ok&&sc&&!sc.style,allDone=all(c);
+ var h='<div class="body" role="alert" style="background:'+bg+';color:'+fg+';padding:28px 22px;padding-top:max(28px,env(safe-area-inset-top));gap:14px;display:flex;flex-direction:column">'+
+  '<div style="display:flex;align-items:center;justify-content:space-between"><span style="width:96px;height:96px;border-radius:50%;border:5px solid '+fg+';display:inline-flex;align-items:center;justify-content:center">'+(ok?ICON.check:wrong?ICON.x:ICON.warn)+'</span><span style="font-size:14px;font-weight:700">'+r.t+'</span></div>'+
+  '<div style="font-size:30px;font-weight:800;line-height:1.1">'+title+'</div><div><div style="font-size:25px;font-weight:800">'+esc(r.ch)+'</div><div style="font-size:17px;font-weight:600">'+esc(r.model||'—')+'</div></div>'+
+  '<div style="font-size:18px;font-weight:600;line-height:1.4">'+line+'</div>'+
+  '<div style="display:flex;align-items:center;gap:8px;font-size:13px;padding-top:10px;border-top:1px solid '+(amber?'rgba(26,18,0,.25)':'rgba(255,255,255,.35)')+'">'+ICON.sound+(ok?T.sOk:wrong?T.sErr:T.sWarn)+'</div><div style="flex:1"></div>';
+ if(ok)h+='<div style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:15px;font-weight:800">'+T.parked+'</span><span style="font-size:15px;font-weight:800">'+T.pos+' '+sc.pos+'</span></div>'+styleBtns(r.ch,sc.style,false)+photoBlock(r.ch,false)+'</div>';
+ if(!wrong)h+='<button class="btn" data-a="next" '+(need?'disabled':'')+' style="font-weight:800;background:'+(amber?'#1A1200':'#fff')+';color:'+(amber?'#fff':'#0B5C38')+(need?';opacity:.55':'')+'">'+(need?T.chooseStyle:allDone?T.cont:T.next)+'</button><button class="btn" data-a="go" data-v="list" style="height:56px;font-size:17px;background:transparent;border:2px solid '+fg+';color:'+fg+'">'+T.backList+'</button>';
+ if(wrong&&!S.ovOpen)h+='<button class="btn" data-a="remove" style="font-weight:800;background:#fff;color:#A61B1B">'+T.remove+'</button><button class="btn" data-a="ovOpen" style="height:56px;font-size:15px;background:transparent;border:2px solid #fff;color:#fff">'+T.override+'</button>';
+ if(wrong&&S.ovOpen)h+='<div style="background:#fff;color:#0B0F14;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px"><div style="font-size:17px;font-weight:800">'+T.override+'</div>'+
+  '<label class="field" style="font-size:13px">'+T.supPin+'<input type="password" inputmode="numeric" data-k="ovPin" value="'+esc(S.ovPin)+'" placeholder="••••" style="letter-spacing:.3em;font-size:22px"><span style="font-size:12px;font-weight:500;color:#3F4254">'+T.pinHint+'</span></label>'+
+  '<label class="field" style="font-size:13px">'+T.reason+'<select data-a="set" data-k="ovReason">'+T.reasons.map(function(x,i){return '<option value="'+i+'"'+(S.ovReason===String(i)?' selected':'')+'>'+x+'</option>';}).join('')+'</select></label>'+
+  (S.ovErr?'<div role="alert" style="font-size:14px;font-weight:700;color:#A61B1B">'+T.pinWrong+'</div>':'')+
+  '<div style="display:flex;gap:8px"><button class="btn outline" data-a="ovClose" style="flex:1">'+T.cancel+'</button><button class="btn" data-a="approve" style="flex:1.4;height:56px;font-size:16px;background:#0B2A4A;color:#fff">'+T.approve+'</button></div></div>';
+ return h+'</div>';}
+
+function vMissing(){var T=t(),c=S.cs[S.cid],miss=c.veh.filter(function(ch){return !c.scanned[ch];});
+ var h=header(C[S.cid].no,'list')+'<div class="body"><div style="flex:1"><div role="alert" style="background:#FFB020;color:#1A1200;padding:18px 16px;display:flex;gap:12px;align-items:flex-start">'+ICON.warn.replace('52','34').replace('52','34')+'<div><div style="font-size:22px;font-weight:800">'+T.missT+'</div><div style="font-size:16px;font-weight:600">'+(S.lang==='ja'?miss.length+'台が未積載です':miss.length+(miss.length===1?' vehicle is':' vehicles are')+' not loaded')+'</div></div></div>';
+ miss.forEach(function(ch){var v=V[ch];h+='<div class="row"><div style="flex:1;min-width:0"><div style="font-size:18px;font-weight:800">'+ch+'</div><div style="font-size:13px;color:#3F4254">'+v[0]+'</div><span class="pill" style="display:inline-block;margin-top:6px;background:#FFE2A8;color:#5C3B00">'+T.notLoaded+'</span></div><div style="text-align:right"><div style="font-size:11px;font-weight:700;color:#3F4254;text-transform:uppercase">'+T.parking+'</div><div style="font-size:22px;font-weight:800">'+v[1]+'</div></div></div>';});
+ h+='<div style="margin:16px;padding:14px;border-radius:14px;background:#F1F3F7;display:flex;gap:10px;font-size:14px;color:#3F4254;font-weight:500">'+ICON.lock+T.locked+'</div></div>';
+ return h+'<div class="foot"><button class="btn blue" data-a="go" data-v="scanV">'+T.contScan+'</button><button class="btn" disabled style="height:56px;font-size:16px;border:2px dashed #A1A5B7;background:#F1F3F7;color:#5E6278">'+ICON.lock+T.complete+'</button></div></div>';}
+
+function vDone(){var T=t(),c=S.cs[S.cid],n=cnt(c),list=c.veh.filter(function(ch){return c.scanned[ch];}).sort(function(a,b){return c.scanned[a].pos-c.scanned[b].pos;});
+ var miss=list.some(function(ch){return !c.scanned[ch].style;});
+ var h='<div class="body" style="background:#0B7A4B"><div style="padding:28px 22px 22px;padding-top:max(28px,env(safe-area-inset-top));color:#fff;display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="width:84px;height:84px;border-radius:50%;border:5px solid #fff;display:inline-flex;align-items:center;justify-content:center">'+ICON.check+'</span><button class="lang" data-a="lang">'+T.sw+'</button></div>'+
+  '<div style="font-size:28px;font-weight:800;line-height:1.1">'+T.allM+'</div><div style="font-size:18px;font-weight:600">'+C[S.cid].no+' · '+n+' / '+c.veh.length+' '+T.loaded+'</div></div>'+
+  '<div style="flex:1;background:#fff;border-radius:24px 24px 0 0;padding:18px 16px;padding-bottom:max(18px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px">'+
+  '<div><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px"><span style="font-size:15px;font-weight:700">'+T.plan+'</span><span style="font-size:13px;font-weight:700;color:#0B3F7A">'+(c.start||'—')+' – '+now()+'</span></div><div style="border:1px solid #E4E7EE;border-radius:12px;overflow:hidden">';
+ list.forEach(function(ch){var sc=c.scanned[ch];h+='<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-bottom:1px solid #EEF0F5"><span class="dot" style="width:28px;height:28px;font-size:13px;background:#0B7A4B">'+sc.pos+'</span><span style="flex:1;min-width:0;font-size:14px;font-weight:700">'+ch+'</span><span style="font-size:12px;color:#3F4254">'+sc.photos.length+' '+T.photosW+'</span><span style="padding:3px 8px;border-radius:8px;font-size:12px;font-weight:800;background:'+STYLE_COL[sc.style][0]+';color:'+STYLE_COL[sc.style][1]+'">'+styleWord(sc.style)+'</span></div>';});
+ h+='</div></div><div style="display:flex;align-items:center;justify-content:space-between"><div style="font-size:15px;font-weight:700">'+T.door+'</div><span class="pill" style="background:#F1F3F7;color:#3F4254">'+T.optional+'</span></div><div class="thumbs" style="flex-wrap:wrap">';
+ S.door.forEach(function(tm,i){h+='<div class="thumb" style="width:92px;background:#2E3440;color:#fff">'+ICON.cam+'<span>'+(i+1)+' · '+tm+'</span></div>';});
+ h+='<button data-a="door" class="btn outline" style="flex:1;min-width:150px;height:72px;font-size:15px">'+ICON.cam+(S.door.length?T.addAnother:T.takePhoto)+'</button></div>'+
+  '<label class="field">'+T.seal+'<input data-k="seal" value="'+esc(S.seal)+'" placeholder="'+T.sealPh+'" autocapitalize="characters" style="text-transform:uppercase"></label>'+
+  (miss?'<div role="alert" style="padding:12px;border-radius:12px;background:#FFEBC2;color:#5C3B00;font-size:14px;font-weight:700;display:flex;flex-direction:column;gap:8px">'+T.styleMiss+'<button class="btn outline" data-a="go" data-v="list" style="height:52px;font-size:15px;border-color:#5C3B00;color:#5C3B00">'+T.backList+'</button></div>':'')+
+  '<div style="font-size:13px;color:#3F4254;text-align:center;font-weight:500">'+T.statusWill+'</div>'+
+  '<button class="btn green" data-a="complete" '+(miss?'disabled style="opacity:.5;height:70px;font-size:21px;font-weight:800"':'style="height:70px;font-size:21px;font-weight:800"')+'>'+ICON.check.replace(/56/g,'26')+T.complete+'</button></div></div>';
+ return h;}
+
+function vSummary(){var T=t(),c=S.cs[S.cid],D=C[S.cid],users=[],exc=0,vp=0,counts={down:0,slided:0,hanged:0};
+ S.log.forEach(function(e){if(e.cid!==S.cid)return;var nm=uname(e.u);if(users.indexOf(nm)<0)users.push(nm);if(e.r!=='ok')exc++;});
+ c.veh.forEach(function(ch){var sc=c.scanned[ch];if(sc){vp+=sc.photos.length;if(counts[sc.style]!==undefined)counts[sc.style]++;}});
+ var ps=['down','slided','hanged'].filter(function(k){return counts[k];}).map(function(k){return counts[k]+' '+T.styles[k];}).join(' · ')||'—';
+ var rows=[[T.container,D.no+' · '+T.booking+' '+D.b],[T.by,users.join(', ')||'—'],[T.startT,today()+' '+(c.start||'—')],[T.endT,today()+' '+(c.end||'—')],[T.vehL,cnt(c)+' / '+c.veh.length],[T.parked,ps],[T.vehPh,vp+' '+T.photosW],[T.doorPh,String(c.door)],[T.seal,c.seal||'—'],[T.exc,exc?String(exc):T.none]];
+ return header(T.summary,'scanC')+'<div class="body"><div class="pad"><div style="padding:16px;border-radius:16px;background:#E3F6EC;color:#0B4F38;display:flex;gap:12px;align-items:center">'+ICON.check.replace(/56/g,'34')+'<div><div style="font-size:20px;font-weight:800">'+D.no+'</div><div style="font-size:14px;font-weight:700">'+T.finished+'</div></div></div>'+
+  '<div style="border:1px solid #E4E7EE;border-radius:16px;overflow:hidden">'+rows.map(function(r){return '<div class="kv"><span>'+r[0]+'</span><b>'+esc(r[1])+'</b></div>';}).join('')+'</div></div><div style="flex:1"></div>'+
+  '<div class="foot"><button class="btn blue" data-a="nextC">'+T.nextC+'</button><button class="btn outline" data-a="reset">'+T.reset+'</button></div></div>';}
+
+function render(){var app=document.getElementById('app');document.documentElement.lang=S.lang;
+ var v={login:vLogin,scanC:vScanC,list:vList,scanV:vScanV,result:vResult,missing:vMissing,done:vDone,summary:vSummary}[S.screen]||vLogin;
+ app.innerHTML=v();}
+
+/* ---------- events ---------- */
+document.addEventListener('click',function(ev){var b=ev.target.closest('[data-a]');if(!b||b.disabled||b.tagName==='SELECT')return;var a=b.getAttribute('data-a'),v=b.getAttribute('data-v'),ch=b.getAttribute('data-ch');
+ switch(a){
+  case 'lang':S.lang=S.lang==='en'?'ja':'en';try{localStorage.setItem('lx_lang',S.lang);}catch(e){}break;
+  case 'go':S.screen=v;S.err=false;S.editCh=null;window.scrollTo(0,0);break;
+  case 'login':S.screen='scanC';break;
+  case 'scanC':openC(S.contSel);break;
+  case 'typedOpen':openC(S.typed);break;
+  case 'startV':startV();break;
+  case 'scanV':scanVeh(S.vehSel);break;
+  case 'finish':S.editCh=null;S.screen=all(S.cs[S.cid])?'done':'missing';window.scrollTo(0,0);break;
+  case 'next':S.screen=all(S.cs[S.cid])?'done':'scanV';S.res=null;window.scrollTo(0,0);break;
+  case 'remove':S.screen='list';S.res=null;break;
+  case 'ovOpen':S.ovOpen=true;S.ovErr=false;S.ovPin='';break;
+  case 'ovClose':S.ovOpen=false;break;
+  case 'approve':approve();break;
+  case 'style':S.cs[S.cid].scanned[ch].style=v;buzz(30);break;
+  case 'photo':addPhoto(ch);break;
+  case 'edit':S.editCh=ch;break;
+  case 'closeEdit':S.editCh=null;break;
+  case 'door':S.door.push(now());buzz(30);break;
+  case 'complete':complete();break;
+  case 'nextC':S.screen='scanC';S.cid=null;S.res=null;break;
+  case 'reset':S=init(S.lang);break;
+  default:return;}
+ render();});
+document.addEventListener('change',function(ev){var el=ev.target;if(el.tagName==='SELECT'&&el.getAttribute('data-k')){S[el.getAttribute('data-k')]=el.value;S.err=false;render();}});
+document.addEventListener('input',function(ev){var el=ev.target;if(el.tagName==='INPUT'&&el.getAttribute('data-k')){S[el.getAttribute('data-k')]=el.value;if(el.getAttribute('data-k')==='ovPin')S.ovErr=false;}});
+window.addEventListener('error',function(e){var d=document.createElement('div');d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:99;background:#9B1C2C;color:#fff;padding:10px 12px;border-radius:10px;font-size:13px';d.textContent='Error: '+(e.message||'unknown')+' — please send a screenshot of this to the LogiEx team.';document.body.appendChild(d);});
+render();
+})();
+</script>
+</body>
+</html>
