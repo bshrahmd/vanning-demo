@@ -10190,7 +10190,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
 (function(){
 var I = {
  en:{app:'Vanning Scan',demo:'DEMO — sample data, nothing is saved',signSub:'Sign in and choose your yard.',signIn:'Sign in',staff:'Staff',yard:'Yard',pin:'PIN',pinPh:'Any 4 digits',yard1:'LOGIEX YARD — Yokohama',yard2:'LOGIEX YARD 2 — Daikoku',back:'Back',sw:'日本語',
-  scanC:'Scan Container',pointC:'Point the camera at the container QR on the packing form.',cam:'Tap “Scan with camera” or choose a sample code below',camBtn:'Scan with camera',camStarting:'Starting camera…',camLooking:'Looking for a QR code… hold steady, 15–30 cm away',camPhotoBtn:'Take a photo of the QR',camPhotoFail:'No QR code found in the photo. Try again closer, with the whole code in the picture.',inApp:'You opened this inside an app (e.g. LINE). The camera may not work here. Tap ⋯ / Share → “Open in browser” (Safari or Chrome).',camTitleC:'Point at the container QR',camTitleV:'Point at the vehicle QR',camDenied:'Camera blocked. Allow camera access for this site in your browser settings, then try again.',camNone:'Camera not available on this device/browser. Use the sample codes instead.',orSample:'or use a sample code',qrSheet:'Test QR codes: open qr-codes.html on another screen or print it.',sim:'Simulate scan',scan:'Scan',or:'or',typeC:'Type container no.',open:'Open',cNF:'No container order with this number.',
+  scanC:'Scan Container',pointC:'Point the camera at the container QR on the packing form.',cam:'',camBtn:'Scan with camera',camStarting:'Starting camera…',camLooking:'Looking for a QR code… hold steady, 15–30 cm away',camPhotoBtn:'Take a photo of the QR',camPhotoFail:'No QR code found in the photo. Try again closer, with the whole code in the picture.',inApp:'You opened this inside an app (e.g. LINE). The camera may not work here. Tap ⋯ / Share → “Open in browser” (Safari or Chrome).',camTitleC:'Point at the container QR',camTitleV:'Point at the vehicle QR',camDenied:'Camera blocked. Allow camera access for this site in your browser settings, then try again.',camNone:'Camera not available on this device/browser. Use the sample codes instead.',orSample:'or type the number',typeV:'Type chassis no. (if the QR is damaged)',check:'Check',qrSheet:'Test QR codes: open qr-codes.html on another screen or print it.',sim:'Simulate scan',scan:'Scan',or:'or',typeC:'Type container no.',open:'Open',cNF:'No container order with this number.',
   dest:'Dest.',vessel:'Vessel',cut:'Cut',cutToday:'Cut today',loaded:'loaded',notStarted:'Vanning not started. Tap “Start vanning” to record the start time.',startedAt:'Vanning start',endT:'End',startV:'Start vanning',scanV:'Scan Vehicle',finish:'Finish',pending:'Pending',pos:'Position No.',setStyle:'Set style',photosW:'photos',
   pointV:'Point the camera at the QR on the vehicle sheet.',optUn:'no container',optNS:'not in stock',
   matchedT:'MATCHED',ovT:'OVERRIDE APPROVED',wrongT:'WRONG CONTAINER',dupT:'ALREADY SCANNED',nfT:'VEHICLE NOT FOUND',naT:'NOT ASSIGNED TO ANY CONTAINER',nfM:'Not in yard stock. Check the label and set the vehicle aside.',naM:'In stock, but not planned for any container. Do not load.',
@@ -10205,7 +10205,7 @@ var I = {
   summary:'Vanning summary',finished:'Vanning Finished',container:'Container',by:'Scanned by',startT:'Start',vehL:'Vehicles loaded',vehPh:'Vehicle photos',doorPh:'Door photos',exc:'Exceptions caught',none:'None',nextC:'Scan next container',already:'Vanning already finished for this container.',booking:'Booking',
   howTitle:'How to try (5 minutes)',how:['Sign in, then scan container TIIU6899691.','Tap “Start vanning”.','Scan ZVW51-6168986 → green. Choose DOWN, add a few photos.','Scan AGL20-0013750 → red (wrong container). Tap “Remove from container”.','Scan ZVW51-6168986 again → amber (already scanned).','Tap Finish → see the missing vehicles.','Scan the rest → all green → Complete Vanning.'],reset:'Reset demo'},
  ja:{app:'バンニングスキャン',demo:'デモ — サンプルデータ・保存されません',signSub:'ログインしてヤードを選択してください。',signIn:'ログイン',staff:'担当者',yard:'ヤード',pin:'PIN',pinPh:'任意の4桁',yard1:'LOGIEX YARD — 横浜',yard2:'LOGIEX YARD 2 — 大黒',back:'戻る',sw:'EN',
-  scanC:'コンテナをスキャン',pointC:'バンニング表のコンテナQRにカメラを向けてください。',cam:'「カメラでスキャン」をタップ、または下のサンプルを選択',camBtn:'カメラでスキャン',camStarting:'カメラを起動中…',camLooking:'QRコードを探しています… 15〜30cm離して静止してください',camPhotoBtn:'QRを写真で撮る',camPhotoFail:'写真からQRコードが見つかりません。コード全体が入るように近づいて再度撮影してください。',inApp:'アプリ内（LINEなど）で開いています。ここではカメラが使えない場合があります。⋯／共有 →「ブラウザで開く」（SafariまたはChrome）を選んでください。',camTitleC:'コンテナQRに向けてください',camTitleV:'車両QRに向けてください',camDenied:'カメラがブロックされています。ブラウザ設定でこのサイトのカメラを許可してから再度お試しください。',camNone:'この端末/ブラウザではカメラを使えません。サンプルコードを使ってください。',orSample:'またはサンプルコードを使用',qrSheet:'テスト用QR：qr-codes.html を別の画面で開くか印刷してください。',sim:'スキャンを模擬',scan:'スキャン',or:'または',typeC:'コンテナ番号を入力',open:'開く',cNF:'この番号のコンテナオーダーはありません。',
+  scanC:'コンテナをスキャン',pointC:'バンニング表のコンテナQRにカメラを向けてください。',cam:'',camBtn:'カメラでスキャン',camStarting:'カメラを起動中…',camLooking:'QRコードを探しています… 15〜30cm離して静止してください',camPhotoBtn:'QRを写真で撮る',camPhotoFail:'写真からQRコードが見つかりません。コード全体が入るように近づいて再度撮影してください。',inApp:'アプリ内（LINEなど）で開いています。ここではカメラが使えない場合があります。⋯／共有 →「ブラウザで開く」（SafariまたはChrome）を選んでください。',camTitleC:'コンテナQRに向けてください',camTitleV:'車両QRに向けてください',camDenied:'カメラがブロックされています。ブラウザ設定でこのサイトのカメラを許可してから再度お試しください。',camNone:'この端末/ブラウザではカメラを使えません。サンプルコードを使ってください。',orSample:'または番号を入力',typeV:'車台番号を入力（QRが破損している場合）',check:'確認',qrSheet:'テスト用QR：qr-codes.html を別の画面で開くか印刷してください。',sim:'スキャンを模擬',scan:'スキャン',or:'または',typeC:'コンテナ番号を入力',open:'開く',cNF:'この番号のコンテナオーダーはありません。',
   dest:'仕向地',vessel:'本船',cut:'カット',cutToday:'本日カット',loaded:'積載済',notStarted:'バンニング未開始です。「バンニング開始」をタップして開始時刻を記録してください。',startedAt:'バンニング開始',endT:'終了',startV:'バンニング開始',scanV:'車両をスキャン',finish:'終了',pending:'未積載',pos:'位置 No.',setStyle:'未設定',photosW:'枚',
   pointV:'車両シートのQRにカメラを向けてください。',optUn:'コンテナ未割当',optNS:'在庫なし',
   matchedT:'一致',ovT:'責任者承認済',wrongT:'コンテナ違い',dupT:'スキャン済み',nfT:'車両が見つかりません',naT:'コンテナ未割当',nfM:'在庫にありません。ラベルを確認し、車両を別置きしてください。',naM:'在庫車両ですが、どのコンテナにも割り当てられていません。積載しないでください。',
@@ -10293,7 +10293,7 @@ function complete(){var c=S.cs[S.cid];c.done=true;c.end=now();c.seal=String(S.se
 
 /* ---------- views ---------- */
 function header(title,backTo){return '<div class="hdr"><button class="back" data-a="go" data-v="'+backTo+'" aria-label="'+t().back+'">'+ICON.back+'</button><div class="ttl"><div class="sub">'+t().app+' · '+esc(uname(S.user))+'</div><div class="main">'+esc(title)+'</div></div><button class="lang" data-a="lang">'+t().sw+'</button></div>';}
-function camButton(kind){return '<button class="btn green" data-a="cam" data-v="'+kind+'">'+ICON.scan+t().camBtn+'</button><div style="display:flex;align-items:center;gap:10px;color:#5E6278;font-size:13px"><span style="flex:1;height:1px;background:#D5DCE8"></span>'+t().orSample+'<span style="flex:1;height:1px;background:#D5DCE8"></span></div>';}
+function camButton(kind){return '<button class="btn green" data-a="cam" data-v="'+kind+'" style="height:84px;font-size:22px">'+ICON.scan+t().camBtn+'</button><div style="display:flex;align-items:center;gap:10px;color:#5E6278;font-size:13px"><span style="flex:1;height:1px;background:#D5DCE8"></span>'+t().orSample+'<span style="flex:1;height:1px;background:#D5DCE8"></span></div>';}
 function viewfinder(tag){return '<div class="vf"><div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div><div class="line"></div>'+(tag?'<div class="tag">'+esc(tag)+'</div>':'')+'<div class="note">'+t().cam+'</div></div>';}
 function styleBtns(ch,cur,onWhite){return '<div class="stylebtns">'+['down','slided','hanged'].map(function(k){var on=cur===k;var bg=onWhite?(on?'#0B2A4A':'#fff'):(on?'#fff':'rgba(255,255,255,.12)');var fg=onWhite?(on?'#fff':'#0B2A4A'):(on?'#0B5C38':'#fff');var bd=onWhite?'#0B2A4A':(on?'#fff':'rgba(255,255,255,.6)');
  return '<button data-a="style" data-ch="'+ch+'" data-v="'+k+'" aria-pressed="'+on+'" style="background:'+bg+';color:'+fg+';border:3px solid '+bd+'"><b>'+t().styles[k]+'</b><span>'+t().help[k]+'</span></button>';}).join('')+'</div>';}
@@ -10305,7 +10305,7 @@ function photoBlock(ch,onWhite){var sc=S.cs[S.cid].scanned[ch];var ph=sc.photos;
 
 function vLogin(){var T=t();return '<div class="body"><div class="pad" style="padding:24px 22px">'+
  '<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800;font-size:26px;letter-spacing:.06em">LOGI<span style="color:#1C7BE0">EX</span></div><button data-a="lang" style="height:52px;min-width:72px;padding:0 12px;border-radius:14px;border:2px solid #0B2A4A;background:#fff;color:#0B2A4A;font-size:15px;font-weight:700">'+T.sw+'</button></div>'+
- '<div style="padding:8px 12px;border-radius:10px;background:#FFF1D6;color:#5C3B00;font-size:12px;font-weight:700">'+T.demo+' · v3</div>'+(IN_APP?'<div class="err" role="alert">'+T.inApp+'</div>':'')+
+ '<div style="padding:8px 12px;border-radius:10px;background:#FFF1D6;color:#5C3B00;font-size:12px;font-weight:700">'+T.demo+' · v4</div>'+(IN_APP?'<div class="err" role="alert">'+T.inApp+'</div>':'')+
  '<div><div style="font-size:30px;font-weight:800;line-height:1.15">'+T.app+'</div><div style="font-size:15px;color:#3F4254;margin-top:6px">'+T.signSub+'</div></div>'+
  '<label class="field">'+T.staff+'<select data-a="set" data-k="user"><option value="tanaka"'+(S.user==='tanaka'?' selected':'')+'>'+USERS.tanaka[S.lang]+'</option><option value="suzuki"'+(S.user==='suzuki'?' selected':'')+'>'+USERS.suzuki[S.lang]+'</option></select></label>'+
  '<label class="field">'+T.yard+'<select data-a="set" data-k="yard"><option value="y1"'+(S.yard==='y1'?' selected':'')+'>'+T.yard1+'</option><option value="y2"'+(S.yard==='y2'?' selected':'')+'>'+T.yard2+'</option></select></label>'+
@@ -10313,14 +10313,10 @@ function vLogin(){var T=t();return '<div class="body"><div class="pad" style="pa
  '<button class="btn blue" data-a="login">'+T.signIn+'</button></div>'+
  '<div class="guide"><b>'+T.howTitle+'</b><ol>'+T.how.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ol><div style="margin-top:8px;font-weight:600">'+esc(T.qrSheet)+'</div></div></div>';}
 
-function vScanC(){var T=t();return header(T.scanC,'login')+'<div class="body"><div class="pad">'+viewfinder('')+
+function vScanC(){var T=t();return header(T.scanC,'login')+'<div class="body"><div class="pad">'+
  '<div style="font-size:16px;font-weight:600;line-height:1.4">'+T.pointC+'</div>'+camButton('c')+
- '<label class="field small">'+T.sim+'<select data-a="set" data-k="contSel">'+['TIIU6899691|1221 · UK','TGHU1234567|1227 · Durban','SEGU6620185|1229 · Mongolia'].map(function(o){var p=o.split('|');return '<option value="'+p[0]+'"'+(S.contSel===p[0]?' selected':'')+'>'+p[0]+' · '+p[1]+'</option>';}).join('')+'</select></label>'+
- '<button class="btn blue" data-a="scanC">'+ICON.scan+T.scan+'</button>'+
- '<div style="display:flex;align-items:center;gap:10px;color:#5E6278;font-size:13px"><span style="flex:1;height:1px;background:#D5DCE8"></span>'+T.or+'<span style="flex:1;height:1px;background:#D5DCE8"></span></div>'+
  '<label class="field small">'+T.typeC+'<span style="display:flex;gap:8px"><input data-k="typed" value="'+esc(S.typed)+'" placeholder="TIIU6899691" autocapitalize="characters" style="flex:1;min-width:0;text-transform:uppercase"><button data-a="typedOpen" class="btn outline" style="width:auto;padding:0 18px;height:60px">'+T.open+'</button></span></label>'+
  (S.err?'<div class="err" role="alert">'+T.cNF+'</div>':'')+'</div></div>';}
-
 function vList(){var T=t(),c=S.cs[S.cid],D=C[S.cid],n=cnt(c),tot=c.veh.length,deg=tot?Math.round(n/tot*360):0;
  var h=header(D.no,'scanC')+'<div class="body"><div style="flex:1">';
  h+='<div style="display:flex;gap:14px;align-items:center;padding:16px;border-bottom:1px solid #E4E7EE"><div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">'+
@@ -10338,13 +10334,14 @@ function vList(){var T=t(),c=S.cs[S.cid],D=C[S.cid],n=cnt(c),tot=c.veh.length,de
   '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div><div style="font-size:12px;font-weight:600;color:#3F4254">'+T.details+'</div><div style="font-size:17px;font-weight:800">'+S.editCh+'</div></div><button data-a="closeEdit" class="btn outline" style="width:auto;height:48px;padding:0 14px;font-size:14px">'+T.close+'</button></div>'+
   styleBtns(S.editCh,c.scanned[S.editCh].style,true)+photoBlock(S.editCh,true)+'</div>';}
  h+='</div>';
- if(!c.done)h+='<div class="foot">'+(!c.start?'<button class="btn green" data-a="startV">'+ICON.clock+T.startV+'</button>':'<button class="btn blue" data-a="go" data-v="scanV">'+ICON.scan+T.scanV+'</button>')+'<button class="btn outline" data-a="finish">'+T.finish+'</button></div>';
+ if(!c.done)h+='<div class="foot">'+(!c.start?'<button class="btn green" data-a="startV">'+ICON.clock+T.startV+'</button>':'<button class="btn blue" data-a="goScanV">'+ICON.scan+T.scanV+'</button>')+'<button class="btn outline" data-a="finish">'+T.finish+'</button></div>';
  return h+'</div>';}
 
-function vScanV(){var T=t(),c=S.cs[S.cid];return header(T.scanV,'list')+'<div class="body"><div class="pad">'+viewfinder(C[S.cid].no+' · '+cnt(c)+' / '+c.veh.length+' '+T.loaded)+
+function vScanV(){var T=t(),c=S.cs[S.cid];return header(T.scanV,'list')+'<div class="body"><div class="pad">'+
+ '<div style="padding:14px 16px;border-radius:14px;background:#E1F0FF;color:#0B3F7A;display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:12px;font-weight:600">'+T.container+'</div><div style="font-size:20px;font-weight:800">'+C[S.cid].no+'</div></div><div style="font-size:22px;font-weight:800">'+cnt(c)+' / '+c.veh.length+' <span style="font-size:13px;font-weight:600">'+T.loaded+'</span></div></div>'+
  '<div style="font-size:16px;font-weight:600;line-height:1.4">'+T.pointV+'</div>'+camButton('v')+
- '<label class="field small">'+T.sim+'<select data-a="set" data-k="vehSel">'+VEH_OPTS.map(function(ch){var lab=ch+' · '+(ch==='NKE165-7193320'?T.optUn:ch==='NCP91-5123999'?T.optNS:V[ch][0]);return '<option value="'+ch+'"'+(S.vehSel===ch?' selected':'')+'>'+lab+'</option>';}).join('')+'</select></label>'+
- '<button class="btn blue" data-a="scanV">'+ICON.scan+T.scan+'</button></div></div>';}
+ '<label class="field small">'+T.typeV+'<span style="display:flex;gap:8px"><input data-k="typedV" value="'+esc(S.typedV||'')+'" placeholder="ZVW51-6168986" autocapitalize="characters" style="flex:1;min-width:0;text-transform:uppercase"><button data-a="typedV" class="btn outline" style="width:auto;padding:0 18px;height:60px">'+T.check+'</button></span></label>'+
+ '</div></div>';}
 
 function vResult(){var T=t(),r=S.res,c=S.cs[S.cid],ok=r.kind==='ok',wrong=r.kind==='wrong',amber=!ok&&!wrong;
  var bg=ok?'#0B7A4B':wrong?'#C62828':'#FFB020',fg=amber?'#1A1200':'#fff',title,line;
@@ -10372,7 +10369,7 @@ function vMissing(){var T=t(),c=S.cs[S.cid],miss=c.veh.filter(function(ch){retur
  var h=header(C[S.cid].no,'list')+'<div class="body"><div style="flex:1"><div role="alert" style="background:#FFB020;color:#1A1200;padding:18px 16px;display:flex;gap:12px;align-items:flex-start">'+ICON.warn.replace('52','34').replace('52','34')+'<div><div style="font-size:22px;font-weight:800">'+T.missT+'</div><div style="font-size:16px;font-weight:600">'+(S.lang==='ja'?miss.length+'台が未積載です':miss.length+(miss.length===1?' vehicle is':' vehicles are')+' not loaded')+'</div></div></div>';
  miss.forEach(function(ch){var v=V[ch];h+='<div class="row"><div style="flex:1;min-width:0"><div style="font-size:18px;font-weight:800">'+ch+'</div><div style="font-size:13px;color:#3F4254">'+v[0]+'</div><span class="pill" style="display:inline-block;margin-top:6px;background:#FFE2A8;color:#5C3B00">'+T.notLoaded+'</span></div><div style="text-align:right"><div style="font-size:11px;font-weight:700;color:#3F4254;text-transform:uppercase">'+T.parking+'</div><div style="font-size:22px;font-weight:800">'+v[1]+'</div></div></div>';});
  h+='<div style="margin:16px;padding:14px;border-radius:14px;background:#F1F3F7;display:flex;gap:10px;font-size:14px;color:#3F4254;font-weight:500">'+ICON.lock+T.locked+'</div></div>';
- return h+'<div class="foot"><button class="btn blue" data-a="go" data-v="scanV">'+T.contScan+'</button><button class="btn" disabled style="height:56px;font-size:16px;border:2px dashed #A1A5B7;background:#F1F3F7;color:#5E6278">'+ICON.lock+T.complete+'</button></div></div>';}
+ return h+'<div class="foot"><button class="btn blue" data-a="goScanV">'+T.contScan+'</button><button class="btn" disabled style="height:56px;font-size:16px;border:2px dashed #A1A5B7;background:#F1F3F7;color:#5E6278">'+ICON.lock+T.complete+'</button></div></div>';}
 
 function vDone(){var T=t(),c=S.cs[S.cid],n=cnt(c),list=c.veh.filter(function(ch){return c.scanned[ch];}).sort(function(a,b){return c.scanned[a].pos-c.scanned[b].pos;});
  var miss=list.some(function(ch){return !c.scanned[ch].style;});
@@ -10411,10 +10408,12 @@ document.addEventListener('click',function(ev){var b=ev.target.closest('[data-a]
   case 'login':S.screen='scanC';break;
   case 'scanC':openC(S.contSel);break;
   case 'typedOpen':openC(S.typed);break;
-  case 'startV':startV();break;
+  case 'startV':startV();render();openScanner('v');return;
+  case 'goScanV':S.screen='scanV';S.editCh=null;render();openScanner('v');return;
+  case 'typedV':if(S.typedV){var tv=normalize(S.typedV);S.typedV='';scanVeh(IDS[tv]||tv);}break;
   case 'scanV':scanVeh(S.vehSel);break;
   case 'finish':S.editCh=null;S.screen=all(S.cs[S.cid])?'done':'missing';window.scrollTo(0,0);break;
-  case 'next':S.screen=all(S.cs[S.cid])?'done':'scanV';S.res=null;window.scrollTo(0,0);break;
+  case 'next':S.res=null;window.scrollTo(0,0);if(all(S.cs[S.cid])){S.screen='done';break;}S.screen='scanV';render();openScanner('v');return;
   case 'remove':S.screen='list';S.res=null;break;
   case 'ovOpen':S.ovOpen=true;S.ovErr=false;S.ovPin='';break;
   case 'ovClose':S.ovOpen=false;break;
