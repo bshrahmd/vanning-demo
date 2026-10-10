@@ -79,8 +79,9 @@ button:disabled{cursor:not-allowed}
 <p style="font-weight:700;color:#9B1C2C">このビューアではデモを開始できません。</p>
 <p>ファイルをSafari / Chromeで開いてください（LINE・メール・ファイルアプリのプレビューでは動作しません）。</p>
 </div></div>
-<div id="scanner" role="dialog" aria-modal="true"><video playsinline muted></video><div class="frame"></div><div class="top" id="scanTitle">Scan QR</div><div class="msg" id="scanMsg"></div><div class="bot"><button class="btn" id="scanClose" style="background:#fff;color:#0B2A4A">Close</button></div></div>
+<div id="scanner" role="dialog" aria-modal="true"><video playsinline muted></video><div class="frame"></div><div class="top" id="scanTitle">Scan QR</div><div class="msg" id="scanMsg"></div><div class="bot" style="display:flex;flex-direction:column;gap:10px"><div id="scanStatus" style="color:#fff;text-align:center;font-size:14px;font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,.7)"></div><button class="btn" id="scanPhoto" style="background:#1C7BE0;color:#fff;font-size:17px">Take a photo of the QR</button><button class="btn" id="scanClose" style="height:56px;font-size:17px;background:#fff;color:#0B2A4A">Close</button></div></div>
 <input type="file" accept="image/*" capture="environment" id="photoInput" style="display:none">
+<input type="file" accept="image/*" capture="environment" id="qrPhotoInput" style="display:none">
 <script>/* jsQR v1.4.0 (Apache-2.0) https://github.com/cozmo/jsQR */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -10189,7 +10190,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
 (function(){
 var I = {
  en:{app:'Vanning Scan',demo:'DEMO — sample data, nothing is saved',signSub:'Sign in and choose your yard.',signIn:'Sign in',staff:'Staff',yard:'Yard',pin:'PIN',pinPh:'Any 4 digits',yard1:'LOGIEX YARD — Yokohama',yard2:'LOGIEX YARD 2 — Daikoku',back:'Back',sw:'日本語',
-  scanC:'Scan Container',pointC:'Point the camera at the container QR on the packing form.',cam:'Tap “Scan with camera” or choose a sample code below',camBtn:'Scan with camera',camTitleC:'Point at the container QR',camTitleV:'Point at the vehicle QR',camDenied:'Camera blocked. Allow camera access for this site in your browser settings, then try again.',camNone:'Camera not available on this device/browser. Use the sample codes instead.',orSample:'or use a sample code',qrSheet:'Test QR codes: open qr-codes.html on another screen or print it.',sim:'Simulate scan',scan:'Scan',or:'or',typeC:'Type container no.',open:'Open',cNF:'No container order with this number.',
+  scanC:'Scan Container',pointC:'Point the camera at the container QR on the packing form.',cam:'Tap “Scan with camera” or choose a sample code below',camBtn:'Scan with camera',camStarting:'Starting camera…',camLooking:'Looking for a QR code… hold steady, 15–30 cm away',camPhotoBtn:'Take a photo of the QR',camPhotoFail:'No QR code found in the photo. Try again closer, with the whole code in the picture.',inApp:'You opened this inside an app (e.g. LINE). The camera may not work here. Tap ⋯ / Share → “Open in browser” (Safari or Chrome).',camTitleC:'Point at the container QR',camTitleV:'Point at the vehicle QR',camDenied:'Camera blocked. Allow camera access for this site in your browser settings, then try again.',camNone:'Camera not available on this device/browser. Use the sample codes instead.',orSample:'or use a sample code',qrSheet:'Test QR codes: open qr-codes.html on another screen or print it.',sim:'Simulate scan',scan:'Scan',or:'or',typeC:'Type container no.',open:'Open',cNF:'No container order with this number.',
   dest:'Dest.',vessel:'Vessel',cut:'Cut',cutToday:'Cut today',loaded:'loaded',notStarted:'Vanning not started. Tap “Start vanning” to record the start time.',startedAt:'Vanning start',endT:'End',startV:'Start vanning',scanV:'Scan Vehicle',finish:'Finish',pending:'Pending',pos:'Position No.',setStyle:'Set style',photosW:'photos',
   pointV:'Point the camera at the QR on the vehicle sheet.',optUn:'no container',optNS:'not in stock',
   matchedT:'MATCHED',ovT:'OVERRIDE APPROVED',wrongT:'WRONG CONTAINER',dupT:'ALREADY SCANNED',nfT:'VEHICLE NOT FOUND',naT:'NOT ASSIGNED TO ANY CONTAINER',nfM:'Not in yard stock. Check the label and set the vehicle aside.',naM:'In stock, but not planned for any container. Do not load.',
@@ -10204,7 +10205,7 @@ var I = {
   summary:'Vanning summary',finished:'Vanning Finished',container:'Container',by:'Scanned by',startT:'Start',vehL:'Vehicles loaded',vehPh:'Vehicle photos',doorPh:'Door photos',exc:'Exceptions caught',none:'None',nextC:'Scan next container',already:'Vanning already finished for this container.',booking:'Booking',
   howTitle:'How to try (5 minutes)',how:['Sign in, then scan container TIIU6899691.','Tap “Start vanning”.','Scan ZVW51-6168986 → green. Choose DOWN, add a few photos.','Scan AGL20-0013750 → red (wrong container). Tap “Remove from container”.','Scan ZVW51-6168986 again → amber (already scanned).','Tap Finish → see the missing vehicles.','Scan the rest → all green → Complete Vanning.'],reset:'Reset demo'},
  ja:{app:'バンニングスキャン',demo:'デモ — サンプルデータ・保存されません',signSub:'ログインしてヤードを選択してください。',signIn:'ログイン',staff:'担当者',yard:'ヤード',pin:'PIN',pinPh:'任意の4桁',yard1:'LOGIEX YARD — 横浜',yard2:'LOGIEX YARD 2 — 大黒',back:'戻る',sw:'EN',
-  scanC:'コンテナをスキャン',pointC:'バンニング表のコンテナQRにカメラを向けてください。',cam:'「カメラでスキャン」をタップ、または下のサンプルを選択',camBtn:'カメラでスキャン',camTitleC:'コンテナQRに向けてください',camTitleV:'車両QRに向けてください',camDenied:'カメラがブロックされています。ブラウザ設定でこのサイトのカメラを許可してから再度お試しください。',camNone:'この端末/ブラウザではカメラを使えません。サンプルコードを使ってください。',orSample:'またはサンプルコードを使用',qrSheet:'テスト用QR：qr-codes.html を別の画面で開くか印刷してください。',sim:'スキャンを模擬',scan:'スキャン',or:'または',typeC:'コンテナ番号を入力',open:'開く',cNF:'この番号のコンテナオーダーはありません。',
+  scanC:'コンテナをスキャン',pointC:'バンニング表のコンテナQRにカメラを向けてください。',cam:'「カメラでスキャン」をタップ、または下のサンプルを選択',camBtn:'カメラでスキャン',camStarting:'カメラを起動中…',camLooking:'QRコードを探しています… 15〜30cm離して静止してください',camPhotoBtn:'QRを写真で撮る',camPhotoFail:'写真からQRコードが見つかりません。コード全体が入るように近づいて再度撮影してください。',inApp:'アプリ内（LINEなど）で開いています。ここではカメラが使えない場合があります。⋯／共有 →「ブラウザで開く」（SafariまたはChrome）を選んでください。',camTitleC:'コンテナQRに向けてください',camTitleV:'車両QRに向けてください',camDenied:'カメラがブロックされています。ブラウザ設定でこのサイトのカメラを許可してから再度お試しください。',camNone:'この端末/ブラウザではカメラを使えません。サンプルコードを使ってください。',orSample:'またはサンプルコードを使用',qrSheet:'テスト用QR：qr-codes.html を別の画面で開くか印刷してください。',sim:'スキャンを模擬',scan:'スキャン',or:'または',typeC:'コンテナ番号を入力',open:'開く',cNF:'この番号のコンテナオーダーはありません。',
   dest:'仕向地',vessel:'本船',cut:'カット',cutToday:'本日カット',loaded:'積載済',notStarted:'バンニング未開始です。「バンニング開始」をタップして開始時刻を記録してください。',startedAt:'バンニング開始',endT:'終了',startV:'バンニング開始',scanV:'車両をスキャン',finish:'終了',pending:'未積載',pos:'位置 No.',setStyle:'未設定',photosW:'枚',
   pointV:'車両シートのQRにカメラを向けてください。',optUn:'コンテナ未割当',optNS:'在庫なし',
   matchedT:'一致',ovT:'責任者承認済',wrongT:'コンテナ違い',dupT:'スキャン済み',nfT:'車両が見つかりません',naT:'コンテナ未割当',nfM:'在庫にありません。ラベルを確認し、車両を別置きしてください。',naM:'在庫車両ですが、どのコンテナにも割り当てられていません。積載しないでください。',
@@ -10219,6 +10220,7 @@ var I = {
   summary:'バンニング結果',finished:'バンニング完了',container:'コンテナ',by:'スキャン担当',startT:'開始',vehL:'積載台数',vehPh:'車両写真',doorPh:'扉写真',exc:'検出した異常',none:'なし',nextC:'次のコンテナをスキャン',already:'このコンテナのバンニングは完了しています。',booking:'ブッキング',
   howTitle:'試し方（約5分）',how:['ログインし、コンテナ TIIU6899691 をスキャン。','「バンニング開始」をタップ。','ZVW51-6168986 をスキャン → 緑。DOWNを選び、写真を数枚追加。','AGL20-0013750 をスキャン → 赤（コンテナ違い）。「コンテナから降ろす」をタップ。','ZVW51-6168986 を再スキャン → 黄（スキャン済み）。','「終了」をタップ → 未積載車両を確認。','残りをスキャン → 全車緑 → バンニング完了。'],reset:'デモをリセット'}
 };
+var IN_APP=/Line\/|FBAN|FBAV|Instagram|MicroMessenger|; wv\)/i.test(navigator.userAgent||'');
 var USERS={tanaka:{en:'Tanaka Hiroshi',ja:'田中 浩'},suzuki:{en:'Suzuki Ken',ja:'鈴木 健'},basheer:{en:'Basheer (Supervisor)',ja:'バシール（責任者）'}};
 var V={'ZVW51-6168986':['PRIUS','BOT-65'],'ZVW55-6018972':['PRIUS','BOT-66'],'ZWE214-6018548':['COROLLA','MONG-4'],'ZWE215-0007941':['COROLLA','MONG-7'],
  'AGL20-0013750':['LEXUS RX','MONG-6'],'GSU45-2504116':['HARRIER','BOT-71'],'KSP130-2204417':['VITZ','BOT-30'],'NSP140-9031552':['RACTIS','BOT-31'],
@@ -10303,7 +10305,7 @@ function photoBlock(ch,onWhite){var sc=S.cs[S.cid].scanned[ch];var ph=sc.photos;
 
 function vLogin(){var T=t();return '<div class="body"><div class="pad" style="padding:24px 22px">'+
  '<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800;font-size:26px;letter-spacing:.06em">LOGI<span style="color:#1C7BE0">EX</span></div><button data-a="lang" style="height:52px;min-width:72px;padding:0 12px;border-radius:14px;border:2px solid #0B2A4A;background:#fff;color:#0B2A4A;font-size:15px;font-weight:700">'+T.sw+'</button></div>'+
- '<div style="padding:8px 12px;border-radius:10px;background:#FFF1D6;color:#5C3B00;font-size:12px;font-weight:700">'+T.demo+'</div>'+
+ '<div style="padding:8px 12px;border-radius:10px;background:#FFF1D6;color:#5C3B00;font-size:12px;font-weight:700">'+T.demo+' · v3</div>'+(IN_APP?'<div class="err" role="alert">'+T.inApp+'</div>':'')+
  '<div><div style="font-size:30px;font-weight:800;line-height:1.15">'+T.app+'</div><div style="font-size:15px;color:#3F4254;margin-top:6px">'+T.signSub+'</div></div>'+
  '<label class="field">'+T.staff+'<select data-a="set" data-k="user"><option value="tanaka"'+(S.user==='tanaka'?' selected':'')+'>'+USERS.tanaka[S.lang]+'</option><option value="suzuki"'+(S.user==='suzuki'?' selected':'')+'>'+USERS.suzuki[S.lang]+'</option></select></label>'+
  '<label class="field">'+T.yard+'<select data-a="set" data-k="yard"><option value="y1"'+(S.yard==='y1'?' selected':'')+'>'+T.yard1+'</option><option value="y2"'+(S.yard==='y2'?' selected':'')+'>'+T.yard2+'</option></select></label>'+
@@ -10436,20 +10438,29 @@ var sc={el:document.getElementById('scanner'),video:null,stream:null,kind:'',tim
 sc.video=sc.el.querySelector('video');
 function showScanMsg(m){var e=document.getElementById('scanMsg');e.textContent=m;e.style.display=m?'block':'none';}
 function loadJsQR(cb){if(window.jsQR)return cb();var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';s.onload=cb;s.onerror=cb;document.head.appendChild(s);}
-function openScanner(kind){sc.kind=kind;document.getElementById('scanTitle').textContent=kind==='c'?t().camTitleC:t().camTitleV;document.getElementById('scanClose').textContent=t().close;showScanMsg('');sc.el.classList.add('on');
- if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){showScanMsg(t().camNone);return;}
- navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false}).then(function(st){sc.stream=st;sc.video.srcObject=st;sc.video.play();
-  if('BarcodeDetector' in window){try{sc.detector=new window.BarcodeDetector({formats:['qr_code']});}catch(e){sc.detector=null;}}
-  if(!sc.detector)loadJsQR(function(){});
-  sc.timer=setInterval(tick,180);
- }).catch(function(err){showScanMsg(err&&err.name==='NotAllowedError'?t().camDenied:t().camNone);});}
-function closeScanner(){clearInterval(sc.timer);sc.timer=null;if(sc.stream){sc.stream.getTracks().forEach(function(x){x.stop();});}sc.stream=null;sc.video.srcObject=null;sc.el.classList.remove('on');}
-function tick(){if(sc.busy||!sc.video.videoWidth)return;sc.busy=true;
- if(sc.detector){sc.detector.detect(sc.video).then(function(r){sc.busy=false;if(r&&r.length)gotCode(r[0].rawValue);}).catch(function(){sc.busy=false;sc.detector=null;loadJsQR(function(){});});return;}
- if(window.jsQR){var w=sc.video.videoWidth,h=sc.video.videoHeight,k=Math.min(1,640/w);w=Math.round(w*k);h=Math.round(h*k);
-  if(!sc.canvas)sc.canvas=document.createElement('canvas');sc.canvas.width=w;sc.canvas.height=h;var ctx=sc.canvas.getContext('2d');ctx.drawImage(sc.video,0,0,w,h);
-  var img=ctx.getImageData(0,0,w,h);var code=window.jsQR(img.data,w,h,{inversionAttempts:'dontInvert'});if(code&&code.data)gotCode(code.data);}
- sc.busy=false;}
+function setStatus(m){document.getElementById('scanStatus').textContent=m||'';}
+function openScanner(kind){sc.kind=kind;sc.n=0;document.getElementById('scanTitle').textContent=kind==='c'?t().camTitleC:t().camTitleV;document.getElementById('scanClose').textContent=t().close;document.getElementById('scanPhoto').textContent=t().camPhotoBtn;
+ showScanMsg(IN_APP?t().inApp:'');setStatus(t().camStarting);sc.el.classList.add('on');
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){showScanMsg((IN_APP?t().inApp+' ':'')+t().camNone);setStatus('');return;}
+ navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false}).then(function(st){
+  if(!sc.el.classList.contains('on')){st.getTracks().forEach(function(x){x.stop();});return;}
+  sc.stream=st;sc.video.setAttribute('playsinline','');sc.video.muted=true;sc.video.srcObject=st;var pr=sc.video.play();if(pr&&pr.catch)pr.catch(function(){});
+  sc.detector=null;if('BarcodeDetector' in window){try{sc.detector=new window.BarcodeDetector({formats:['qr_code']});}catch(e){sc.detector=null;}}
+  setStatus(t().camLooking);clearInterval(sc.timer);sc.timer=setInterval(tick,200);
+ }).catch(function(err){setStatus('');var n=err&&err.name||'';showScanMsg((n==='NotAllowedError'||n==='SecurityError'?t().camDenied:t().camNone)+(IN_APP?' '+t().inApp:'')+' ['+n+']');});}
+function closeScanner(){clearInterval(sc.timer);sc.timer=null;if(sc.stream){sc.stream.getTracks().forEach(function(x){x.stop();});}sc.stream=null;sc.video.srcObject=null;sc.el.classList.remove('on');setStatus('');}
+function decodeCanvas(src,w,h){var k=Math.min(1,900/Math.max(w,h));var W=Math.max(1,Math.round(w*k)),H=Math.max(1,Math.round(h*k));
+ if(!sc.canvas)sc.canvas=document.createElement('canvas');sc.canvas.width=W;sc.canvas.height=H;var ctx=sc.canvas.getContext('2d');ctx.drawImage(src,0,0,W,H);
+ var img=ctx.getImageData(0,0,W,H);var code=window.jsQR?window.jsQR(img.data,W,H,{inversionAttempts:'attemptBoth'}):null;return code&&code.data?code.data:null;}
+function tick(){if(sc.busy||!sc.video.videoWidth)return;sc.busy=true;sc.n++;
+ var useDet=sc.detector&&(sc.n%2===0);
+ if(useDet){sc.detector.detect(sc.video).then(function(r){sc.busy=false;if(r&&r.length&&r[0].rawValue)gotCode(r[0].rawValue);}).catch(function(){sc.busy=false;sc.detector=null;});return;}
+ try{var d=decodeCanvas(sc.video,sc.video.videoWidth,sc.video.videoHeight);sc.busy=false;if(d)gotCode(d);}catch(e){sc.busy=false;}}
+var qrIn=document.getElementById('qrPhotoInput');
+document.getElementById('scanPhoto').addEventListener('click',function(){clearInterval(sc.timer);sc.timer=null;if(sc.stream){sc.stream.getTracks().forEach(function(x){x.stop();});}sc.stream=null;sc.video.srcObject=null;setStatus('');qrIn.value='';qrIn.click();});
+qrIn.addEventListener('change',function(){var f=qrIn.files&&qrIn.files[0];if(!f)return;var url=URL.createObjectURL(f);var im=new Image();
+ im.onload=function(){var d=null;try{d=decodeCanvas(im,im.naturalWidth,im.naturalHeight);}catch(e){}URL.revokeObjectURL(url);if(d)gotCode(d);else{showScanMsg(t().camPhotoFail);buzz([200,80,200]);}};
+ im.onerror=function(){showScanMsg(t().camPhotoFail);};im.src=url;});
 function normalize(raw){return String(raw||'').trim().toUpperCase().replace(/^LOGIEX-(STOCK|CONTAINER-ORDER):/,'');}
 function gotCode(raw){var kind=sc.kind;closeScanner();var q=normalize(raw);
  if(kind==='c'){var m=q.replace(/^CO-/,'');if(C[m])q=C[m].no;openC(q);}
